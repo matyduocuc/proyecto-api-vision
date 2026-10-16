@@ -85,7 +85,6 @@ En el set de prueba, subir el umbral rechaza mas desconocidos pero tambien deja 
 - La clase `desconocido` esta hecha con retratos de LFW, asi que algunos rostros ajenos al curso aun podrian aceptarse.
 
 ## Autor
-
-Nicolas Cuevas - DuocUC, Deep Learning (AVY1103).
+ - DuocUC, Deep Learning (AVY1103).
 '@ | Set-Content README.md -Encoding UTF8
 Get-Content README.md -TotalCount 5
