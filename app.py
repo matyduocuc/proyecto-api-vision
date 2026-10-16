@@ -14,12 +14,12 @@ import os
 import numpy as np
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, ImageOps, UnidentifiedImageError
 
 RUTA_MODELO = os.getenv("RUTA_MODELO", "modelo_cnn_rostros_curso.keras")
 RUTA_CLASES = os.getenv("RUTA_CLASES", "clases_cnn_rostros.json")
 TAM = 128
-UMBRAL = float(os.getenv("UMBRAL", "0.60"))
+UMBRAL = float(os.getenv("UMBRAL", "0.70"))
 
 app = FastAPI(title="API Reconocimiento de Rostros - EP2", version="1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"],
@@ -51,7 +51,7 @@ def cargar_recursos():
 
 def preprocesar(contenido: bytes) -> np.ndarray:
     """Igual que en el entrenamiento: RGB, 128x128 (LANCZOS), /255."""
-    img = Image.open(io.BytesIO(contenido)).convert("RGB")
+    img = ImageOps.exif_transpose(Image.open(io.BytesIO(contenido))).convert("RGB")
     img = img.resize((TAM, TAM), Image.LANCZOS)
     arr = np.asarray(img, dtype="float32") / 255.0
     return np.expand_dims(arr, axis=0)
@@ -92,3 +92,5 @@ async def predecir(archivo: UploadFile = File(...)):
     return {"nombre_archivo": archivo.filename, "encontrado": True,
             "clase_predicha": nombre, "confianza": round(confianza, 4),
             "mensaje": f"Persona identificada: {nombre}", "top3": top3}
+
+
