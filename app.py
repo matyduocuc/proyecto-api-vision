@@ -19,7 +19,7 @@ from PIL import Image, ImageOps, UnidentifiedImageError
 RUTA_MODELO = os.getenv("RUTA_MODELO", "modelo_cnn_rostros_curso.keras")
 RUTA_CLASES = os.getenv("RUTA_CLASES", "clases_cnn_rostros.json")
 TAM = 128
-UMBRAL = float(os.getenv("UMBRAL", "0.50"))
+UMBRAL = float(os.getenv("UMBRAL", "0.60"))
 
 app = FastAPI(title="API Reconocimiento de Rostros - EP2", version="1.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"],
@@ -92,6 +92,7 @@ async def predecir(archivo: UploadFile = File(...)):
     return {"nombre_archivo": archivo.filename, "encontrado": True,
             "clase_predicha": nombre, "confianza": round(confianza, 4),
             "mensaje": f"Persona identificada: {nombre}", "top3": top3}
+
 
 
 
