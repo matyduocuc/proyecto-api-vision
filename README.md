@@ -6,7 +6,7 @@ La app movil que la consume esta en https://github.com/matyduocuc/app-rostros
 
 ## Modelo
 
-- CNN de arquitectura `A_basica` (3 bloques Conv2D + MaxPooling, 4.29 M de parametros), ganadora entre 3 arquitecturas comparadas en el notebook.
+- CNN de arquitectura `A_basica` (3 bloques Conv2D + MaxPooling, 1.14 M de parametros, imagenes de 64x64x3), ganadora entre 12 configuraciones (3 arquitecturas x 4 dimensiones) en el notebook.
 - Entrenada con **19 personas del curso (200 fotos)** mas la clase `desconocido` (45 rostros del dataset publico LFW): **20 clases**.
 - Aumento de datos durante el entrenamiento: volteo horizontal, rotacion (hasta ±18°), zoom, desplazamiento, brillo y contraste.
 - Division 60/20/20 (train/val/test). Test accuracy: **0.776** sobre 49 imagenes.
@@ -93,11 +93,12 @@ $env:UMBRAL = "0.60"
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
-Calibracion sobre el conjunto de test (alumnos reconocidos correctamente segun el umbral):
+Calibracion sobre el conjunto de test (40 fotos de alumnos y 9 de desconocidos):
 
 | Umbral | 0.50 | 0.60 | 0.70 | 0.80 | 0.90 |
 |---|---|---|---|---|---|
-| Alumnos aceptados | 65 % | 60 % | 55 % | 42 % | 32 % |
+| Alumnos aceptados bien | 82 % | 80 % | 70 % | 70 % | 62 % |
+| Desconocidos rechazados | 89 % | 89 % | 89 % | 100 % | 100 % |
 
 Subir el umbral rechaza mas desconocidos, pero tambien deja fuera a mas alumnos reales.
 
