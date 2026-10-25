@@ -46,7 +46,7 @@ pip install -r requirements.txt
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
-Debe aparecer `Modelo cargado. 20 clases. Umbral = 0.5`.
+Debe aparecer `Modelo cargado. 20 clases. Umbral = 0.6`.
 
 4. Probar en el navegador: `http://127.0.0.1:8000/docs` y usar `POST /predecir/` con una foto en el campo `archivo`. Tambien con curl:
 
@@ -86,7 +86,7 @@ Errores: `400` si el archivo no es una imagen valida y `503` si el modelo aun no
 
 ## Umbral de confianza
 
-Una prediccion se rechaza si su confianza es menor al umbral, o si el modelo predice la clase `desconocido`. El valor por defecto es **0.50** y se puede cambiar sin tocar el codigo:
+Una prediccion se rechaza si su confianza es menor al umbral, o si el modelo predice la clase `desconocido`. El valor por defecto es **0.60** y se puede cambiar sin tocar el codigo:
 
 ```powershell
 $env:UMBRAL = "0.60"
